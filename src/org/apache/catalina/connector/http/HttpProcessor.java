@@ -38,7 +38,7 @@ import org.apache.catalina.util.StringParser;
  *
  * 此对象实现了两个接口，LifeCycle，Runnable，不仅可以支持start，stop，关联LifecycleListener，
  * 同时实现Thread接口作为守护线程实例运行， 只有当所有用户线程结束后才需要退出。
- *
+ * 仔细研究原理
  *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
