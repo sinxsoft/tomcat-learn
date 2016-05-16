@@ -36,6 +36,10 @@ import org.apache.catalina.util.StringParser;
  * and the processor will then execute the processing required to complete
  * the request.  When the processor is completed, it will recycle itself.
  *
+ * 此对象实现了两个接口，LifeCycle，Runnable，不仅可以支持start，stop，关联LifecycleListener，
+ * 同时实现Thread接口作为守护线程实例运行， 只有当所有用户线程结束后才需要退出。
+ *
+ *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
  * @version $Revision: 1.46 $ $Date: 2002/04/04 17:50:34 $
