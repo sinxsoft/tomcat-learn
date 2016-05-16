@@ -1,12 +1,20 @@
 package ex05.pyrmont.core;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.catalina.Container;
 import org.apache.catalina.HttpRequest;
 import org.apache.catalina.Mapper;
 import org.apache.catalina.Request;
 import org.apache.catalina.Wrapper;
 
+/**
+ * 
+ * @author vagrant
+ * 
+ *         协议对应关系
+ * 
+ */
 public class SimpleContextMapper implements Mapper {
 
   /**
@@ -20,8 +28,7 @@ public class SimpleContextMapper implements Mapper {
 
   public void setContainer(Container container) {
     if (!(container instanceof SimpleContext))
-      throw new IllegalArgumentException
-        ("Illegal type of container");
+      throw new IllegalArgumentException("Illegal type of container");
     context = (SimpleContext) container;
   }
 
@@ -29,25 +36,22 @@ public class SimpleContextMapper implements Mapper {
     return null;
   }
 
-  public void setProtocol(String protocol) {
-  }
+  public void setProtocol(String protocol) {}
 
 
   /**
-   * Return the child Container that should be used to process this Request,
-   * based upon its characteristics.  If no such child Container can be
-   * identified, return <code>null</code> instead.
+   * Return the child Container that should be used to process this Request, based upon its
+   * characteristics. If no such child Container can be identified, return <code>null</code>
+   * instead.
    *
    * @param request Request being processed
    * @param update Update the Request to reflect the mapping selection?
    *
-   * @exception IllegalArgumentException if the relative portion of the
-   *  path cannot be URL decoded
+   * @exception IllegalArgumentException if the relative portion of the path cannot be URL decoded
    */
   public Container map(Request request, boolean update) {
     // Identify the context-relative URI to be mapped
-    String contextPath =
-      ((HttpServletRequest) request.getRequest()).getContextPath();
+    String contextPath = ((HttpServletRequest) request.getRequest()).getContextPath();
     String requestURI = ((HttpRequest) request).getDecodedRequestURI();
     String relativeURI = requestURI.substring(contextPath.length());
     // Apply the standard request URI mapping rules from the specification

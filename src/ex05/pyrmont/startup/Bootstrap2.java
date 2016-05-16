@@ -38,6 +38,10 @@ public final class Bootstrap2 {
     wrapper2.setName("Modern");
     wrapper2.setServletClass("ModernServlet");
 
+    // 该上下文也实现了Pipeline接口，提供了addValve方法，setBasic方法。
+    // 此处不仅当Context使用，而且当Pipeline使用。
+    // SimpleContext关联（associate）了一个pipeline对象，只设置了basic
+
     Context context = new SimpleContext();
     context.addChild(wrapper1);
     context.addChild(wrapper2);
@@ -51,11 +55,15 @@ public final class Bootstrap2 {
     Mapper mapper = new SimpleContextMapper();
     mapper.setProtocol("http");
     context.addMapper(mapper);
+
     Loader loader = new SimpleLoader();
     context.setLoader(loader);
+
     // context.addServletMapping(pattern, name);
+
     context.addServletMapping("/Primitive", "Primitive");
     context.addServletMapping("/Modern", "Modern");
+
     connector.setContainer(context);
     try {
       connector.initialize();

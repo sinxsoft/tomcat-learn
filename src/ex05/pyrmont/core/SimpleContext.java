@@ -4,6 +4,7 @@ package ex05.pyrmont.core;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.HashMap;
+
 import javax.naming.directory.DirContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -39,6 +40,9 @@ import org.apache.catalina.util.CharsetMapper;
 public class SimpleContext implements Context, Pipeline {
 
   public SimpleContext() {
+    // 当Valve链（chain）执行完毕后，最后一个执行的就是pipeline的basic，basic
+    // pipeline.addValve(new ClientIPLoggerValve());
+    // 负责加载对应的servlet供执行
     pipeline.setBasic(new SimpleContextValve());
   }
 
@@ -54,113 +58,97 @@ public class SimpleContext implements Context, Pipeline {
     return null;
   }
 
-  public void setApplicationListeners(Object listeners[]) {
-  }
+  public void setApplicationListeners(Object listeners[]) {}
 
   public boolean getAvailable() {
     return false;
   }
 
-  public void setAvailable(boolean flag) {
-  }
+  public void setAvailable(boolean flag) {}
 
   public CharsetMapper getCharsetMapper() {
     return null;
   }
 
-  public void setCharsetMapper(CharsetMapper mapper) {
-  }
+  public void setCharsetMapper(CharsetMapper mapper) {}
 
   public boolean getConfigured() {
     return false;
   }
 
-  public void setConfigured(boolean configured) {
-  }
+  public void setConfigured(boolean configured) {}
 
   public boolean getCookies() {
     return false;
   }
 
-  public void setCookies(boolean cookies) {
-  }
+  public void setCookies(boolean cookies) {}
 
   public boolean getCrossContext() {
     return false;
   }
 
-  public void setCrossContext(boolean crossContext) {
-  }
+  public void setCrossContext(boolean crossContext) {}
 
   public String getDisplayName() {
     return null;
   }
 
-  public void setDisplayName(String displayName) {
-  }
+  public void setDisplayName(String displayName) {}
 
   public boolean getDistributable() {
     return false;
   }
 
-  public void setDistributable(boolean distributable) {
-  }
+  public void setDistributable(boolean distributable) {}
 
   public String getDocBase() {
     return null;
   }
 
-  public void setDocBase(String docBase) {
-  }
+  public void setDocBase(String docBase) {}
 
   public LoginConfig getLoginConfig() {
     return null;
   }
 
-  public void setLoginConfig(LoginConfig config) {
-  }
+  public void setLoginConfig(LoginConfig config) {}
 
   public NamingResources getNamingResources() {
     return null;
   }
 
-  public void setNamingResources(NamingResources namingResources) {
-  }
+  public void setNamingResources(NamingResources namingResources) {}
 
   public String getPath() {
     return null;
   }
 
-  public void setPath(String path) {
-  }
+  public void setPath(String path) {}
 
   public String getPublicId() {
     return null;
   }
 
-  public void setPublicId(String publicId) {
-  }
+  public void setPublicId(String publicId) {}
 
   public boolean getReloadable() {
     return false;
   }
 
-  public void setReloadable(boolean reloadable) {
-  }
+  public void setReloadable(boolean reloadable) {}
 
   public boolean getOverride() {
     return false;
   }
 
-  public void setOverride(boolean override) {
-  }
+  public void setOverride(boolean override) {}
 
   public boolean getPrivileged() {
     return false;
   }
 
-  public void setPrivileged(boolean privileged) {
-  }
+  public void setPrivileged(boolean privileged) {}
 
   public ServletContext getServletContext() {
     return null;
@@ -170,66 +158,47 @@ public class SimpleContext implements Context, Pipeline {
     return 0;
   }
 
-  public void setSessionTimeout(int timeout) {
-  }
+  public void setSessionTimeout(int timeout) {}
 
   public String getWrapperClass() {
     return null;
   }
 
-  public void setWrapperClass(String wrapperClass) {
-  }
+  public void setWrapperClass(String wrapperClass) {}
 
-  public void addApplicationListener(String listener) {
-  }
+  public void addApplicationListener(String listener) {}
 
-  public void addApplicationParameter(ApplicationParameter parameter) {
-  }
+  public void addApplicationParameter(ApplicationParameter parameter) {}
 
-  public void addConstraint(SecurityConstraint constraint) {
-  }
+  public void addConstraint(SecurityConstraint constraint) {}
 
-  public void addEjb(ContextEjb ejb) {
-  }
+  public void addEjb(ContextEjb ejb) {}
 
-  public void addEnvironment(ContextEnvironment environment) {
-  }
+  public void addEnvironment(ContextEnvironment environment) {}
 
-  public void addErrorPage(ErrorPage errorPage) {
-  }
+  public void addErrorPage(ErrorPage errorPage) {}
 
-  public void addFilterDef(FilterDef filterDef) {
-  }
+  public void addFilterDef(FilterDef filterDef) {}
 
-  public void addFilterMap(FilterMap filterMap) {
-  }
+  public void addFilterMap(FilterMap filterMap) {}
 
-  public void addInstanceListener(String listener) {
-  }
+  public void addInstanceListener(String listener) {}
 
-  public void addLocalEjb(ContextLocalEjb ejb) {
-  }
+  public void addLocalEjb(ContextLocalEjb ejb) {}
 
-  public void addMimeMapping(String extension, String mimeType) {
-  }
+  public void addMimeMapping(String extension, String mimeType) {}
 
-  public void addParameter(String name, String value) {
-  }
+  public void addParameter(String name, String value) {}
 
-  public void addResource(ContextResource resource) {
-  }
+  public void addResource(ContextResource resource) {}
 
-  public void addResourceEnvRef(String name, String type) {
-  }
+  public void addResourceEnvRef(String name, String type) {}
 
-  public void addResourceLink(ContextResourceLink resourceLink) {
-  }
+  public void addResourceLink(ContextResourceLink resourceLink) {}
 
-  public void addRoleMapping(String role, String link) {
-  }
+  public void addRoleMapping(String role, String link) {}
 
-  public void addSecurityRole(String role) {
-  }
+  public void addSecurityRole(String role) {}
 
   public void addServletMapping(String pattern, String name) {
     synchronized (servletMappings) {
@@ -237,17 +206,13 @@ public class SimpleContext implements Context, Pipeline {
     }
   }
 
-  public void addTaglib(String uri, String location) {
-  }
+  public void addTaglib(String uri, String location) {}
 
-  public void addWelcomeFile(String name) {
-  }
+  public void addWelcomeFile(String name) {}
 
-  public void addWrapperLifecycle(String listener) {
-  }
+  public void addWrapperLifecycle(String listener) {}
 
-  public void addWrapperListener(String listener) {
-  }
+  public void addWrapperListener(String listener) {}
 
   public Wrapper createWrapper() {
     return null;
@@ -411,77 +376,54 @@ public class SimpleContext implements Context, Pipeline {
     return null;
   }
 
-  public void reload() {
-  }
+  public void reload() {}
 
-  public void removeApplicationListener(String listener) {
-  }
+  public void removeApplicationListener(String listener) {}
 
-  public void removeApplicationParameter(String name) {
-  }
+  public void removeApplicationParameter(String name) {}
 
-  public void removeConstraint(SecurityConstraint constraint) {
-  }
+  public void removeConstraint(SecurityConstraint constraint) {}
 
-  public void removeEjb(String name) {
-  }
+  public void removeEjb(String name) {}
 
-  public void removeEnvironment(String name) {
-  }
+  public void removeEnvironment(String name) {}
 
-  public void removeErrorPage(ErrorPage errorPage) {
-  }
+  public void removeErrorPage(ErrorPage errorPage) {}
 
-  public void removeFilterDef(FilterDef filterDef) {
-  }
+  public void removeFilterDef(FilterDef filterDef) {}
 
-  public void removeFilterMap(FilterMap filterMap) {
-  }
+  public void removeFilterMap(FilterMap filterMap) {}
 
-  public void removeInstanceListener(String listener) {
-  }
+  public void removeInstanceListener(String listener) {}
 
-  public void removeLocalEjb(String name) {
-  }
+  public void removeLocalEjb(String name) {}
 
-  public void removeMimeMapping(String extension) {
-  }
+  public void removeMimeMapping(String extension) {}
 
-  public void removeParameter(String name) {
-  }
+  public void removeParameter(String name) {}
 
-  public void removeResource(String name) {
-  }
+  public void removeResource(String name) {}
 
-  public void removeResourceEnvRef(String name) {
-  }
+  public void removeResourceEnvRef(String name) {}
 
-  public void removeResourceLink(String name) {
-  }
+  public void removeResourceLink(String name) {}
 
-  public void removeRoleMapping(String role) {
-  }
+  public void removeRoleMapping(String role) {}
 
-  public void removeSecurityRole(String role) {
-  }
+  public void removeSecurityRole(String role) {}
 
-  public void removeServletMapping(String pattern) {
-  }
+  public void removeServletMapping(String pattern) {}
 
-  public void removeTaglib(String uri) {
-  }
+  public void removeTaglib(String uri) {}
 
-  public void removeWelcomeFile(String name) {
-  }
+  public void removeWelcomeFile(String name) {}
 
-  public void removeWrapperLifecycle(String listener) {
-  }
+  public void removeWrapperLifecycle(String listener) {}
 
-  public void removeWrapperListener(String listener) {
-  }
+  public void removeWrapperListener(String listener) {}
 
 
-  //methods of the Container interface
+  // methods of the Container interface
   public String getInfo() {
     return null;
   }
@@ -502,76 +444,67 @@ public class SimpleContext implements Context, Pipeline {
     return null;
   }
 
-  public void setLogger(Logger logger) {
-  }
+  public void setLogger(Logger logger) {}
 
   public Manager getManager() {
     return null;
   }
 
-  public void setManager(Manager manager) {
-  }
+  public void setManager(Manager manager) {}
 
   public Cluster getCluster() {
     return null;
   }
 
-  public void setCluster(Cluster cluster) {
-  }
+  public void setCluster(Cluster cluster) {}
 
   public String getName() {
     return null;
   }
 
-  public void setName(String name) {
-  }
+  public void setName(String name) {}
 
   public Container getParent() {
     return null;
   }
 
-  public void setParent(Container container) {
-  }
+  public void setParent(Container container) {}
 
   public ClassLoader getParentClassLoader() {
     return null;
   }
 
-  public void setParentClassLoader(ClassLoader parent) {
-  }
+  public void setParentClassLoader(ClassLoader parent) {}
 
   public Realm getRealm() {
     return null;
   }
 
-  public void setRealm(Realm realm) {
-  }
+  public void setRealm(Realm realm) {}
 
   public DirContext getResources() {
     return null;
   }
 
-  public void setResources(DirContext resources) {
-  }
+  public void setResources(DirContext resources) {}
 
   public void addChild(Container child) {
     child.setParent((Container) this);
     children.put(child.getName(), child);
   }
 
-  public void addContainerListener(ContainerListener listener) {
-  }
+  public void addContainerListener(ContainerListener listener) {}
 
   public void addMapper(Mapper mapper) {
     // this method is adopted from addMapper in ContainerBase
     // the first mapper added becomes the default mapper
-    mapper.setContainer((Container) this);      // May throw IAE
+    mapper.setContainer((Container) this); // May throw IAE
     this.mapper = mapper;
-    synchronized(mappers) {
+    synchronized (mappers) {
       if (mappers.get(mapper.getProtocol()) != null)
-        throw new IllegalArgumentException("addMapper:  Protocol '" +
-          mapper.getProtocol() + "' is not unique");
-      mapper.setContainer((Container) this);      // May throw IAE
+        throw new IllegalArgumentException("addMapper:  Protocol '" + mapper.getProtocol()
+            + "' is not unique");
+      mapper.setContainer((Container) this); // May throw IAE
       mappers.put(mapper.getProtocol(), mapper);
       if (mappers.size() == 1)
         this.mapper = mapper;
@@ -580,13 +513,12 @@ public class SimpleContext implements Context, Pipeline {
     }
   }
 
-  public void addPropertyChangeListener(PropertyChangeListener listener) {
-  }
+  public void addPropertyChangeListener(PropertyChangeListener listener) {}
 
   public Container findChild(String name) {
     if (name == null)
       return (null);
-    synchronized (children) {       // Required by post-start changes
+    synchronized (children) { // Required by post-start changes
       return ((Container) children.get(name));
     }
   }
@@ -617,15 +549,14 @@ public class SimpleContext implements Context, Pipeline {
     return null;
   }
 
-  public void invoke(Request request, Response response)
-    throws IOException, ServletException {
+  public void invoke(Request request, Response response) throws IOException, ServletException {
     pipeline.invoke(request, response);
   }
 
   public Container map(Request request, boolean update) {
-    //this method is taken from the map method in org.apache.cataline.core.ContainerBase
-    //the findMapper method always returns the default mapper, if any, regardless the
-    //request's protocol
+    // this method is taken from the map method in org.apache.cataline.core.ContainerBase
+    // the findMapper method always returns the default mapper, if any, regardless the
+    // request's protocol
     Mapper mapper = findMapper(request.getRequest().getProtocol());
     if (mapper == null)
       return (null);
@@ -634,17 +565,13 @@ public class SimpleContext implements Context, Pipeline {
     return (mapper.map(request, update));
   }
 
-  public void removeChild(Container child) {
-  }
+  public void removeChild(Container child) {}
 
-  public void removeContainerListener(ContainerListener listener) {
-  }
+  public void removeContainerListener(ContainerListener listener) {}
 
-  public void removeMapper(Mapper mapper) {
-  }
+  public void removeMapper(Mapper mapper) {}
 
-  public void removePropertyChangeListener(PropertyChangeListener listener) {
-  }
+  public void removePropertyChangeListener(PropertyChangeListener listener) {}
 
   // method implementations of Pipeline
   public Valve getBasic() {
