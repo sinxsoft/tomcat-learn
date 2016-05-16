@@ -1,11 +1,5 @@
 package ex05.pyrmont.startup;
 
-import ex05.pyrmont.core.SimpleContext;
-import ex05.pyrmont.core.SimpleContextMapper;
-import ex05.pyrmont.core.SimpleLoader;
-import ex05.pyrmont.core.SimpleWrapper;
-import ex05.pyrmont.valves.ClientIPLoggerValve;
-import ex05.pyrmont.valves.HeaderLoggerValve;
 import org.apache.catalina.Context;
 import org.apache.catalina.Loader;
 import org.apache.catalina.Mapper;
@@ -14,6 +8,26 @@ import org.apache.catalina.Valve;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.connector.http.HttpConnector;
 
+import ex05.pyrmont.core.SimpleContext;
+import ex05.pyrmont.core.SimpleContextMapper;
+import ex05.pyrmont.core.SimpleLoader;
+import ex05.pyrmont.core.SimpleWrapper;
+import ex05.pyrmont.valves.ClientIPLoggerValve;
+import ex05.pyrmont.valves.HeaderLoggerValve;
+
+/*
+ * 一个context（实现pipeline接口）放入多个servlet的封装Wrapper接口
+ * 
+ * 一个context（实现pipeline接口）放入多个filter的封装Valve接口
+ * 
+ * 一个context放入一个Mapper（指定http或者https或者其他协议）
+ * 
+ * 一个context放入多个ServletMapping映射，addServletMapping方法
+ * 
+ * Wrapper（一个servlet），Context（一个应用），Host（一个（Context）应用组合）,Engine，一个Tomcat服务器
+ * 
+ * 以上均实现了接口Containner，从小到达排列
+ */
 public final class Bootstrap2 {
   public static void main(String[] args) {
     HttpConnector connector = new HttpConnector();
@@ -49,8 +63,7 @@ public final class Bootstrap2 {
 
       // make the application wait until we press a key.
       System.in.read();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
