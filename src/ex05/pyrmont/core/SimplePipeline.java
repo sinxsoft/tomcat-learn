@@ -1,7 +1,9 @@
 package ex05.pyrmont.core;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
+
 import org.apache.catalina.Contained;
 import org.apache.catalina.Container;
 import org.apache.catalina.Pipeline;
@@ -17,6 +19,7 @@ public class SimplePipeline implements Pipeline {
   }
 
   // The basic Valve (if any) associated with this Pipeline.
+  //
   protected Valve basic = null;
   // The Container with which this Pipeline is associated.
   protected Container container = null;
@@ -41,7 +44,7 @@ public class SimplePipeline implements Pipeline {
       ((Contained) valve).setContainer(this.container);
 
     synchronized (valves) {
-      Valve results[] = new Valve[valves.length +1];
+      Valve results[] = new Valve[valves.length + 1];
       System.arraycopy(valves, 0, results, 0, valves.length);
       results[valves.length] = valve;
       valves = results;
@@ -52,14 +55,14 @@ public class SimplePipeline implements Pipeline {
     return valves;
   }
 
-  public void invoke(Request request, Response response)
-    throws IOException, ServletException {
+  public void invoke(Request request, Response response) throws IOException, ServletException {
     // Invoke the first Valve in this pipeline for this request
-    (new SimplePipelineValveContext()).invokeNext(request, response);
+    // (new SimplePipelineValveContext()).invokeNext(request, response);
+    // 将SimplePipelineValveContext移到外面，变成MyPipelineValveContext
+    (new MyPipelineValveContext(this)).invokeNext(request, response);
   }
 
-  public void removeValve(Valve valve) {
-  }
+  public void removeValve(Valve valve) {}
 
   // this class is copied from org.apache.catalina.core.StandardPipeline class's
   // StandardPipelineValveContext inner class.
@@ -71,18 +74,15 @@ public class SimplePipeline implements Pipeline {
       return null;
     }
 
-    public void invokeNext(Request request, Response response)
-      throws IOException, ServletException {
+    public void invokeNext(Request request, Response response) throws IOException, ServletException {
       int subscript = stage;
       stage = stage + 1;
       // Invoke the requested Valve for the current request thread
       if (subscript < valves.length) {
         valves[subscript].invoke(request, response, this);
-      }
-      else if ((subscript == valves.length) && (basic != null)) {
+      } else if ((subscript == valves.length) && (basic != null)) {
         basic.invoke(request, response, this);
-      }
-      else {
+      } else {
         throw new ServletException("No valve");
       }
     }
