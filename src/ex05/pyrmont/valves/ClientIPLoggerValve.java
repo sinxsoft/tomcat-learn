@@ -10,7 +10,9 @@ import org.apache.catalina.ValveContext;
 import org.apache.catalina.Contained;
 import org.apache.catalina.Container;
 
-
+/*
+ * 可以理解为一个过滤器
+ */
 public class ClientIPLoggerValve implements Valve, Contained {
 
   protected Container container;

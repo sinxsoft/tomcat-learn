@@ -79,6 +79,12 @@ import javax.servlet.ServletException;
  * because a valve is what you use in a real world pipeline to control and/or
  * modify flows through it.
  *
+ *	Valve（阀门）是一个与特定容器关联的请求处理组件（类比成javax的filter），
+ * 多个（一组）Valve（阀门）通常是在一个管道内相互关联，Valve的详细协议定义参见下述方法：invoke()。
+ *
+ * 可以理解为Filter接口
+ *
+ *
  * @author Craig R. McClanahan
  * @author Gunnar Rjnning
  * @author Peter Donald
