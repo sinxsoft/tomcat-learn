@@ -28,20 +28,24 @@ public final class Bootstrap {
     wrapper2.setName("Modern");
     wrapper2.setServletClass("ModernServlet");
 
+    //一个web应用，标准web应用
+    //StandardContext实现了三个接口：Lifecycle，Container，Pipeline（可以作为Valve的数组队列）
     Context context = new StandardContext();
     // StandardContext's start method adds a default mapper
     context.setPath("/myApp");
     context.setDocBase("myApp");
 
+    //往web应用里面放入两个wrapper，包装两个servlet对象
     context.addChild(wrapper1);
     context.addChild(wrapper2);
-
+    //放入两个servlet映射
     // context.addServletMapping(pattern, name);
     context.addServletMapping("/Primitive", "Primitive");
     context.addServletMapping("/Modern", "Modern");
     // add ContextConfig. This listener is important because it configures
     // StandardContext (sets configured to true), otherwise StandardContext
-    // won't start
+    // won't start  
+    //这个监听器只做了一件事：在context对象fire了start事件的时候，触发了context的方法： context.setConfigured(true);
     LifecycleListener listener = new SimpleContextConfig();
     ((Lifecycle) context).addLifecycleListener(listener);
 
