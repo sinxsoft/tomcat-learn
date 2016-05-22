@@ -91,6 +91,7 @@ final class HttpProcessor
 
     /**
      * Is there a new socket available?
+     * 是否这里有一个新socket对象可用？
      */
     private boolean available = false;
 
@@ -220,6 +221,7 @@ final class HttpProcessor
 
     /**
      * HTTP/1.1 client.
+     * 表示 从 web 客户端过来的 HTTP 请求是否支持 HTTP 1.1
      */
     private boolean http11 = true;
 
@@ -286,15 +288,15 @@ final class HttpProcessor
      * <b>NOTE</b>:  This method is called from our Connector's thread.  We
      * must assign it to our own thread so that multiple simultaneous
      * requests can be handled.
-     *
+     * 分派socket给该处理器
      * @param socket TCP socket to process
      */
     synchronized void assign(Socket socket) {
-
+    		//等待处理器获取之前的socket对象
         // Wait for the Processor to get the previous Socket
         while (available) {
             try {
-                wait();
+                this.wait();
             } catch (InterruptedException e) {
             }
         }
@@ -302,7 +304,7 @@ final class HttpProcessor
         // Store the newly available Socket and notify our thread
         this.socket = socket;
         available = true;
-        notifyAll();
+        this.notifyAll();
 
         if ((debug >= 1) && (socket != null))
             log(" An incoming request is being assigned");
@@ -316,13 +318,19 @@ final class HttpProcessor
     /**
      * Await a newly assigned Socket from our Connector, or <code>null</code>
      * if we are supposed to shut down.
+     * 注意此方法被本对象的run方法调用，run是一个循环执行的线程方法
+     * 
+     * 获取可用的socket对象
      */
     private synchronized Socket await() {
 
+    	    //如果没有新的socket对象供使用，则wait，将该对象交由其他线程处理，知道其他线程唤醒本线程。
         // Wait for the Connector to provide a new Socket
         while (!available) {
             try {
-                wait();
+            	   //调用当前对象的wait方法，就是交出当前对象的锁
+            	   //调用当前对象的wait方法必须在同步方法或者同步块中进行
+                this.wait();
             } catch (InterruptedException e) {
             }
         }
@@ -330,7 +338,7 @@ final class HttpProcessor
         // Notify the Connector that we have received this Socket
         Socket socket = this.socket;
         available = false;
-        notifyAll();
+        this.notifyAll();
 
         if ((debug >= 1) && (socket != null))
             log("  The incoming request has been awaited");
@@ -880,22 +888,29 @@ final class HttpProcessor
      * @param socket The socket on which we are connected to the client
      */
     private void process(Socket socket) {
+    		//布尔变量 ok 来指代在处理过程中是否发现错误
         boolean ok = true;
+        //使用布尔变量 finishResponse 来指代 Response 接口中的 finishResponse 方法是否应该被调用
         boolean finishResponse = true;
         SocketInputStream input = null;
         OutputStream output = null;
 
         // Construct and initialize the objects we will need
         try {
+        		//SocketInputStream 的构造方法同样传递了从连接器获得的缓冲区大小,而不是从 HttpProcessor 的本地变量获得。
+        		//这是因为对于默认连接器的用户而言,HttpProcessor 是不可 访问的。通过传递 Connector 接口的缓冲区大小,这就使得
+        		//使用连接器的任何人都可以设置缓冲 大小。buffersize 是由connector关联的，不是processor关联的
             input = new SocketInputStream(socket.getInputStream(),
                                           connector.getBufferSize());
         } catch (Exception e) {
             log("process.create", e);
             ok = false;
         }
-
+        //表示连接 是否是持久的
         keepAlive = true;
 
+        //while 循环用来保持从输入流中读取,直到 HttpProcessor 被停止,一个异常被
+        //抛出或者连接给关闭为止。
         while (!stopped && ok && keepAlive) {
 
             finishResponse = true;
@@ -917,7 +932,7 @@ final class HttpProcessor
             // Parse the incoming request
             try {
                 if (ok) {
-
+                		//以下是 解析前来的 HTTP 请求
                     parseConnection(socket);
                     parseRequest(input, output);
                     if (!request.getRequest().getProtocol()
@@ -1078,13 +1093,14 @@ final class HttpProcessor
 
         // Process requests until we receive a shutdown signal
         while (!stopped) {
-
+        		//等待分派下一个socket
             // Wait for the next socket to be assigned
             Socket socket = await();
             if (socket == null)
                 continue;
 
             // Process the request from this socket
+            //同步处理一个socket，处理完成一个后，该processor才接受下一个socket处理
             try {
                 process(socket);
             } catch (Throwable t) {
@@ -1092,6 +1108,7 @@ final class HttpProcessor
             }
 
             // Finish up this request
+            //将此对象推到stack中去
             connector.recycle(this);
 
         }
