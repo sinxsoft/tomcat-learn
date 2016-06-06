@@ -77,6 +77,10 @@ import java.security.cert.X509Certificate;
  * level, but will typically only be attached to a Context, or higher level,
  * Container.
  *
+ * Realm 是一个以只读外观为基础的安全领域，用来认证个人用户和校验与这这些用户相关的安全权限。
+ * 
+ * Realm 可以连接到任何级别的Container，但是通常只会连接到Context，或者更高级别的Container上面
+ * 
  * @author Craig R. McClanahan
  * @version $Revision: 1.4 $ $Date: 2001/07/30 20:04:04 $
  */
@@ -115,6 +119,8 @@ public interface Realm {
     /**
      * Add a property change listener to this component.
      *
+     * Realm接口可以增加属性变更监听器
+     *
      * @param listener The listener to add
      */
     public void addPropertyChangeListener(PropertyChangeListener listener);
@@ -123,6 +129,8 @@ public interface Realm {
     /**
      * Return the Principal associated with the specified username and
      * credentials, if there is one; otherwise return <code>null</code>.
+     *
+     *  返回关联指定的用户名和相关凭证的Principal
      *
      * @param username Username of the Principal to look up
      * @param credentials Password or other credentials to use in
